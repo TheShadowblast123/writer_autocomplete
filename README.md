@@ -23,9 +23,13 @@ In insert mode "Ctrl x" (that is the combination of the control/command key and 
 
 ### Example usage
 
+*NOTE*: **if there's more than one match for a completion, it'll show you the list of matches, but if there's one unique match, it will just insert that for you. Also as with other commands in vim, you don't need to release ctrl instead doing hold ctrl press x press l as in label and then continuing**
+
 #### Line Completion: "Ctrl x" + "Ctrl l"
 
-1. Pantoum
+![nvim exe2025-08-1101-16-50-ezgif com-video-to-gif-converter](https://github.com/user-attachments/assets/f7fa0a87-f196-464e-b6a9-2f4e9d593d6a)
+
+
 
 #### Current File Word Completion: "Ctrl x" + "Ctrl n"
 
