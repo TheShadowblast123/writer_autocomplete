@@ -52,6 +52,8 @@ Pressing three characters is shorter than most words. Pressing three characters 
 
 At this point we have to have a discussion. Let's assume that the average word is 4 characters long for the sake of easier math. If you type 30wpm that would be 120cpm (characters per minute) or 2cps (characters per second). Let's say I give you a list of options, how far from the first option could a big word be and still make sense as an option? You'd have to be typing at the word, looking at the screen, make the decision and go for it. The word would have to either be a tricky word or so long that going down a list of options is fine for getting to it. Now let's say you type at 120wpm, this now means you type at 8cps. What would work for someone at 2cps won't work for you. 
 
+But let's say we did find something that did work for you and let's call this number x. We're going to make the assumption that we will go with an amount of suggestions that doesn't meaningfully impact reaction times. It will always take 2 character presses at least in order to get any suggestion, This means s<sub>1</sub> must be x + 2, where x is the amount of characters you could type you could reasonably type before realizing the suggestion is exactly what you want. Any suggestion further down must generally follow an additional +1 in length. Now of course there will be instances where you want difficult to spell words, but they two should fall in this order.
+
 
 A simple .md containing information and implementations of autocomplete systems for neovim
 ``` lua
