@@ -48,44 +48,75 @@ Pressing three characters is shorter than most words. Pressing three characters 
 
 ## Autocomplete (finally)
 
-### WPM
+### WPM and it's underlooked cousing, CPS
 
 At this point we have to have a discussion. Let's assume that the average word is 4 characters long for the sake of easier math. If you type 30wpm that would be 120cpm (characters per minute) or 2cps (characters per second). Let's say I give you a list of options, how far from the first option could a big word be and still make sense as an option? You'd have to be typing at the word, looking at the screen, make the decision and go for it. The word would have to either be a tricky word or so long that going down a list of options is fine for getting to it. Now let's say you type at 120wpm, this now means you type at 8cps. What would work for someone at 2cps won't work for you. 
 
-But let's say we did find something that did work for you and let's call this number x. We're going to make the assumption that we will go with an amount of suggestions that doesn't meaningfully impact reaction times. It will always take 2 character presses at least in order to get any suggestion, This means s<sub>1</sub> must be x + 2, where x is the amount of characters you could type you could reasonably type before realizing the suggestion is exactly what you want. Any suggestion further down must generally follow an additional +1 in length. Now of course there will be instances where you want difficult to spell words, but they two should fall in this order.
+But let's say we did find something that did work for you and let's call this number x. We're going to make the assumption that we will go with an amount of suggestions that doesn't meaningfully impact reaction times. It will always take 2 character presses at least in order to get any suggestion, This means s<sub>1</sub> must be x + 2, where x is the amount of characters you could type you could reasonably type before realizing the suggestion is exactly what you want. Any suggestion further down must generally follow an additional +1 in length. Now of course there will be instances where you want difficult to spell words, but they two should fall, gennerally, in this order.
 
+Here are my suggestions as far as minimum suggestion lengths:
+- 1 or 2 character(s): Don't use neovim outside of editing. Don't even type. You're probably faster writing by hand if this is actually useful. You'd have to type at at most 15 wpm and a whopping 1 character per second... but that means autocomplete doesn't save any time
+- 3 characters: Ocassionally justifiable at 30wpm.
+- 4 characters: 30wpm is justified, 45 wpm is somewhat justified.
+- 5 characters: 45 wpm is justified, but now the issue is the possibility of just wanting an autocomplete to type words correctly goes up. Even at 90% accuracy there's about a 50% chance of typing a word incorrectly.
+- 6+ characters: Now at 92% accuracy, there's a 48% of typing a word these lengths incorrectly. Part of the speed bonus of autocomplete is being assured that you're typing a word correctly.
+That's minimum length of the suggested word, I then also recommend a minimum of minimum length + 2 for prefixed suggestions. Here's my recommendations:
+- 2 characters: good for 30wpm
+- 3 characters: good for 60wpm
+- 4+ characters: good for 90+wpm but again, requires higher accuracy
 
-A simple .md containing information and implementations of autocomplete systems for neovim
+  So with this information, here's my recommended autocomplete setup for writers with lazynvim
 ``` lua
-return {
-  "hrsh7th/nvim-cmp",
-  event = "InsertEnter",
-  dependencies = {
-    "hrsh7th/cmp-buffer", -- source for text in buffer
-	-- here would be cmp-spell
-	-- here would be cmp-freq
-	-- here would be cmp-peronalized-freq
-  },
-  config = function()
-    local cmp = require("cmp")
-    cmp.setup({
-      completion = {
-        completeopt = "menu,menuone,preview,noselect",
-      },
 
-      mapping = cmp.mapping.preset.insert({
-        ["<C-k>"] = cmp.mapping.select_prev_item(), -- previous suggestion
-        ["<C-j>"] = cmp.mapping.select_next_item(), -- next suggestion
-        ["<C-Space>"] = cmp.mapping.complete(), -- show completion suggestions,
-        ["<C-e>"] = cmp.mapping.abort(), -- close completion window
-        ["<CR>"] = cmp.mapping.confirm({ select = false }), -- confirm with enter
-      }),
-      -- sources for autocompletion
-      sources = cmp.config.sources({
-        { name = "buffer" }, -- text within current buffer
-      }),
-    })
-  end,
+{
+	"TheShadowblast123/cmp-adaptive-freq",
+	dependencies = { "hrsh7th/nvim-cmp" },
+	config = function()
+		require("cmp-adaptive-freq").setup({})
+	end,
+},
+{
+	"TheShadowblast123/cmp-freq",
+	dependencies = { "hrsh7th/nvim-cmp" },
+	config = function()
+		require("cmp-freq").setup()
+	end,
+},
+{
+	"hrsh7th/nvim-cmp",
+	event = "InsertEnter",
+	dependencies = {
+		"hrsh7th/cmp-path", -- source for file system paths
+	},
+	config = function()
+		local cmp = require("cmp")
+		cmp.setup({
+			completion = {
+				completeopt = "menu,menuone,preview,noselect",
+			},
+
+			mapping = cmp.mapping.preset.insert({
+				["<C-k>"] = cmp.mapping.select_prev_item(), -- previous suggestion
+				["<C-j>"] = cmp.mapping.select_next_item(), -- next suggestion
+				["<C-Space>"] = cmp.mapping.complete(), -- show completion suggestions,
+				["<C-e>"] = cmp.mapping.abort(), -- close completion window
+				["<Tab>"] = cmp.mapping.confirm({ select = false }), -- confirm with tab
+			}),
+			-- sources for autocompletion
+			sources = cmp.config.sources({
+				{ name = "cmp-adaptive-freq" }, -- personalized word frequency
+				{
+				name = "cmp-freq",
+				entry_filter = function(entry, ctx)
+					local word = entry:get_insert_text()
+					return (#word >= 3) and (#word >= #ctx.context.cursor_before_line + 2)
+				end
+				}, -- generealized word frequency
+				{ name = 'path' }, -- just for file paths
+			}),
+		})
+	end,
 }
 ```
-test test test
+So first the completion sources need explaining. "cmp-freq" is a completion source based on word frequency lists with multi language support and even custom language support, if you're willing to make a word frequency list that is. This is used to give general word suggestions and assure that for the most part, words are spelled correctly the first time they're typed, bBut later is where cmp-adaptive-freq shines. It is a completion source that adapts to the user's input within a session, within a folder, and globally. It's about as good as an autocomplete could get without getting very complicated or invasive. "path" is specifically for 
+The keymappings are relatively unimportant though it pains me to say that tab is the superior confirmation key. It's rare to use tab in the middle of a line but ending a paragraph is just part of the buisness.
