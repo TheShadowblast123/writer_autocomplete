@@ -7,7 +7,7 @@
 Yes, but the point of this section is to inform you about manual completion systems so that you have extra tools at your disposal for lessening the amount of typing that you have to do and the more executing on your vision you get to do.
 ### So what's the good stuff
 
-Hopefully if you're reading an article or a readme on github about neovim, you're already fairly situated with how exactly it works, but just in case here's the relevant mini refersher.
+Hopefully if you're reading an article or a readme on github about neovim, you're already fairly situated with how exactly it works, but just in case here's the relevant mini refresher.
 In order to type new text in vim, you must type "i". This is because by default you enter a document/file in normal mode, which is a mode for editing, not typing new text. This in a way is a great thing as it divides editing from writing, but for completion, the best part is that everything that'll make us faster is in insert mode. It's in insert mode so much so that's it is called...
 
 ### Insert mode completion
@@ -28,7 +28,7 @@ In insert mode "Ctrl x" (that is the combination of the control/command key and 
 
 ![nvim exe2025-08-1101-16-50-ezgif com-video-to-gif-converter](https://github.com/user-attachments/assets/f7fa0a87-f196-464e-b6a9-2f4e9d593d6a)
 
-This is particularly useful for anytihng with heavy repetion or something that happens to share a structure that is easier to edit than it is to retype.
+This is particularly useful for anything with heavy reppetion or something that happens to share a structure that is easier to edit than it is to retype.
 
 #### Current File Word Completion: "Ctrl x" + "Ctrl n"
 
@@ -48,15 +48,15 @@ Pressing three characters is shorter than most words. Pressing three characters 
 
 ## Autocomplete (finally)
 
-### WPM and it's underlooked cousing, CPS
+### WPM and it's underlooked cousin, CPS
 
-At this point we have to have a discussion. Let's assume that the average word is 4 characters long for the sake of easier math. If you type 30wpm that would be 120cpm (characters per minute) or 2cps (characters per second). Let's say I give you a list of options, how far from the first option could a big word be and still make sense as an option? You'd have to be typing at the word, looking at the screen, make the decision and go for it. The word would have to either be a tricky word or so long that going down a list of options is fine for getting to it. Now let's say you type at 120wpm, this now means you type at 8cps. What would work for someone at 2cps won't work for you. 
+At this point we have to have a discussion. Let's assume that the average word is 4 characters long for the sake of easier math. If you type 30wpm that would be 120cpm (characters per minute) or 2cps (characters per second). Let's say I give you a list of options, how far from the first option could a big word be and still make sense as an option? You'd have to be typing the word, looking at the screen, make the decision and go for it. The word would have to either be a tricky word or so long that going down a list of options is fine for getting to it. Now let's say you type at 120wpm, this now means you type at 8cps. What would work for someone at 2cps won't work for you. 
 
-But let's say we did find something that did work for you and let's call this number x. We're going to make the assumption that we will go with an amount of suggestions that doesn't meaningfully impact reaction times. It will always take 2 character presses at least in order to get any suggestion, This means s<sub>1</sub> must be x + 2, where x is the amount of characters you could type you could reasonably type before realizing the suggestion is exactly what you want. Any suggestion further down must generally follow an additional +1 in length. Now of course there will be instances where you want difficult to spell words, but they two should fall, gennerally, in this order.
+But let's say we did find something that did work for you and let's call this number x. We're going to make the assumption that we will go with an amount of suggestions that doesn't meaningfully impact reaction times. It will always take 2 character presses at least in order to get any suggestion, This means s<sub>1</sub> must be x + 2, where x is the amount of characters you could type you could reasonably type before realizing the suggestion is exactly what you want. Any suggestion further down must generally follow an additional +1 in length. Now of course there will be instances where you want difficult to spell words, but they too should fall, generally, in this order.
 
 Here are my suggestions as far as minimum suggestion lengths:
 - 1 or 2 character(s): Don't use neovim outside of editing. Don't even type. You're probably faster writing by hand if this is actually useful. You'd have to type at at most 15 wpm and a whopping 1 character per second... but that means autocomplete doesn't save any time
-- 3 characters: Ocassionally justifiable at 30wpm.
+- 3 characters: Occasionally justifiable at 30wpm.
 - 4 characters: 30wpm is justified, 45 wpm is somewhat justified.
 - 5 characters: 45 wpm is justified, but now the issue is the possibility of just wanting an autocomplete to type words correctly goes up. Even at 90% accuracy there's about a 50% chance of typing a word incorrectly.
 - 6+ characters: Now at 92% accuracy, there's a 48% of typing a word these lengths incorrectly. Part of the speed bonus of autocomplete is being assured that you're typing a word correctly.
@@ -118,5 +118,5 @@ That's minimum length of the suggested word, I then also recommend a minimum of 
 	end,
 }
 ```
-So first the completion sources need explaining. "cmp-freq" is a completion source based on word frequency lists with multi language support and even custom language support, if you're willing to make a word frequency list that is. This is used to give general word suggestions and assure that for the most part, words are spelled correctly the first time they're typed, bBut later is where cmp-adaptive-freq shines. It is a completion source that adapts to the user's input within a session, within a folder, and globally. It's about as good as an autocomplete could get without getting very complicated or invasive. "path" is specifically for 
+So first the completion sources need explaining. "cmp-freq" is a completion source based on word frequency lists with multi language support and even custom language support, if you're willing to make a word frequency list that is. This is used to give general word suggestions and assure that for the most part, words are spelled correctly the first time they're typed, but later is where cmp-adaptive-freq shines. It is a completion source that adapts to the user's input within a session, within a folder, and globally. It's about as good as an autocomplete could get without getting very complicated or invasive. "path" is specifically for 
 The keymappings are relatively unimportant though it pains me to say that tab is the superior confirmation key. It's rare to use tab in the middle of a line but ending a paragraph is just part of the buisness.
