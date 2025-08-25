@@ -7,7 +7,7 @@
 Yes, but the point of this section is to inform you about manual completion systems so that you have extra tools at your disposal for lessening the amount of typing that you have to do and the more executing on your vision you get to do.
 ### So what's the good stuff
 
-Hopefully if you're reading an aritcle or a readme on github about neovim, you're already fairly situated with how exactly it works, but just in case here's the relevant mini refersher.
+Hopefully if you're reading an article or a readme on github about neovim, you're already fairly situated with how exactly it works, but just in case here's the relevant mini refersher.
 In order to type new text in vim, you must type "i". This is because by default you enter a document/file in normal mode, which is a mode for editing, not typing new text. This in a way is a great thing as it divides editing from writing, but for completion, the best part is that everything that'll make us faster is in insert mode. It's in insert mode so much so that's it is called...
 
 ### Insert mode completion
